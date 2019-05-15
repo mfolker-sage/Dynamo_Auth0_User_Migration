@@ -1,6 +1,6 @@
 
 if [ "$#" -ne 1 ]; then
-  echo "Usage : ./build.sh lambdaName";
+  echo "Usage : ./build.sh auth0-migration-function";
   exit 1;
 fi
 
