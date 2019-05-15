@@ -1,6 +1,6 @@
 
 if [ "$#" -ne 1 ]; then
-  echo "Usage : ./build.sh auth0-migration-function";
+  echo "Usage : ./build.sh lambdaName";
   exit 1;
 fi
 
@@ -14,7 +14,7 @@ else
   exit 1
 fi
 
-echo "nmp installing...";
+echo "npm installing...";
 npm install
 if [ $? -eq 0 ]; then
   echo "done";
@@ -50,4 +50,3 @@ else
   echo "Lambda name = $lambda"
   exit 1;
 fi
-view rawbuild.sh hosted with ❤ by GitHub
