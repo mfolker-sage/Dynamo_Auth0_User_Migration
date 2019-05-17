@@ -9,8 +9,14 @@ exports.handler = async event => {
   try {
     var params = {
       TableName: "MigrantUsers",
-      ProjectionExpression: "emailAddress, basicAuth.password"
-      // FilterExpression: "emailAddress = " + "employer.publisher@sage.com"
+      ProjectionExpression: "emailAddress, basicAuth.password",
+      ExpressionAttributeNames: {
+        "#emailAddress": "emailAddress"
+      },
+      ExpressionAttributeValues: {
+        ":emailAddress": "employer.publisher@sage.com"
+      },
+      FilterExpression: "#emailAddress = :emailAddress"
     };
 
     let statusCode = 500;
@@ -22,27 +28,39 @@ exports.handler = async event => {
 
     // console.log("scan complete");
 
+    let result = null;
+
     function onScan(err, data) {
+      console.log("on scan");
+
       if (err) {
         console.error(
           "Unable to scan the table. Error JSON:",
-          JSON.stringify(err, null, 2)
+          JSON.stringify(err)
         );
+        return;
       } else {
         console.log("Scan succeeded.");
 
-        if (!data.items || data.items[0].length < 1) {
-          statusCode = 404;
-          message = "Too many or too few";
-          return;
-        }
+        // if (!data.items || data.items[0].length < 1) {
+        //   statusCode = 404;
+        //   message = "Too many or too few";
+        //   return;
+        // }
 
-        return {
-          statusCode: 200,
-          body: JSON.stringify(data)
-        };
+        result = data;
+
+        // return {
+        //   statusCode: 200,
+        //   body: JSON.stringify(data)
+        // };
       }
     }
+
+    return {
+      statusCode: statusCode,
+      body: JSON.stringify(result)
+    };
 
     // switch (event.path) {
     //   case "/login":
