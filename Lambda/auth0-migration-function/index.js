@@ -48,7 +48,14 @@ exports.handler = async event => {
         //   return;
         // }
 
+        console.log(data);
+
         result = data;
+
+        return {
+          statusCode: statusCode,
+          body: JSON.stringify(result)
+        };
 
         // return {
         //   statusCode: 200,
@@ -56,11 +63,6 @@ exports.handler = async event => {
         // };
       }
     }
-
-    return {
-      statusCode: statusCode,
-      body: JSON.stringify(result)
-    };
 
     // switch (event.path) {
     //   case "/login":
