@@ -9,8 +9,8 @@ exports.handler = async event => {
   try {
     var params = {
       TableName: "MigrantUsers",
-      ProjectionExpression: "emailAddress, basicAuth.password",
-      FilterExpression: "emailAddress = " + "employer.publisher@sage.com"
+      ProjectionExpression: "emailAddress, basicAuth.password"
+      // FilterExpression: "emailAddress = " + "employer.publisher@sage.com"
     };
 
     let statusCode = 500;
