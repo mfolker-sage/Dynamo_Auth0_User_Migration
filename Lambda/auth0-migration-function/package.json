@@ -15,6 +15,7 @@
   "author": "Matthew Folker",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.455.0"
+    "aws-sdk": "^2.455.0",
+    "bcrypt": "^3.0.6"
   }
 }
