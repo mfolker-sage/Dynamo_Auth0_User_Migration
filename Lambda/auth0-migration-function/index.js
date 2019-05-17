@@ -3,9 +3,8 @@ const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
 const bcrypt = require("bcrypt");
 
-exports.handler = async (event, context) => {
+exports.handler = async event => {
   console.log(JSON.stringify(event));
-  console.log(JSON.stringify(context));
 
   try {
     var params = {
@@ -32,44 +31,46 @@ exports.handler = async (event, context) => {
       } else {
         console.log("Scan succeeded.");
 
-        if (!data.Items || data.Items[0].length < 1) {
+        if (!data.items || data.items[0].length < 1) {
           statusCode = 404;
           message = "Too many or too few";
           return;
         }
 
-        statusCode = 200;
-        message = "user matched";
+        return {
+          statusCode: 200,
+          body: JSON.stringify(data)
+        };
       }
     }
 
-    switch (event.path) {
-      case "/login":
-        return {
-          statusCode: statusCode,
-          body: message
-        };
-        break;
+    // switch (event.path) {
+    //   case "/login":
+    //     return {
+    //       statusCode: statusCode,
+    //       body: message
+    //     };
+    //     break;
 
-      case "/get-user":
-        return {
-          statusCode: 200,
-          body: "Get user"
-        };
-        break;
+    //   case "/get-user":
+    //     return {
+    //       statusCode: 200,
+    //       body: "Get user"
+    //     };
+    //     break;
 
-      default:
-        console.error(
-          "Request to unknown end point received. Event details:",
-          JSON.stringify(event)
-        );
-        return {
-          statusCode: 404,
-          body: JSON.stringify(event)
-        };
-    }
+    //   default:
+    //     console.error(
+    //       "Request to unknown end point received. Event details:",
+    //       JSON.stringify(event)
+    //     );
+    //     return {
+    //       statusCode: 404,
+    //       body: JSON.stringify(event)
+    //     };
+    // }
 
-    return response;
+    // return response;
   } catch (e) {
     console.error(e);
     return {
