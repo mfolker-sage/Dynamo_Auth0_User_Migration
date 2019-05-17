@@ -18,5 +18,5 @@ steps:
 - script: |
     cd Lambda/auth0-migration-function
     npm install
-    npm run build
+    zip archive.zip *  -r -x .git/\* \*.sh tests/\* node_modules/aws-sdk/\* \*.zip
   displayName: 'npm install and build'
