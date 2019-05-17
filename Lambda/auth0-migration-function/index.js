@@ -16,7 +16,7 @@ exports.handler = async (event, context) => {
     const bcrypt = require("bcrypt");
 
     let statusCode = 500;
-    let message = "Something is missing - pipeline test";
+    let message = "Something is missing - pipeline test - auto test";
 
     console.log("about to scan");
 
