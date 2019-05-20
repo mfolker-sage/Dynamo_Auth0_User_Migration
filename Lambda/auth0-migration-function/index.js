@@ -22,13 +22,15 @@ exports.handler = async event => {
 
     console.log("User details determined from request", suppliedUserDetails);
 
+    const email = suppliedUserDetails.emailAddress;
+
     const params = {
       TableName: "MigrantUsers",
       ExpressionAttributeNames: {
         "#emailAddress": "emailAddress"
       },
       ExpressionAttributeValues: {
-        ":emailAddress": suppliedUserDetails.emailAddress
+        ":emailAddress": email
       },
       FilterExpression: "#emailAddress = :emailAddress"
     };
