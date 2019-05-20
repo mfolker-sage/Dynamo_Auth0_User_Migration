@@ -9,9 +9,11 @@ const bcrypt = require("bcrypt");
 exports.handler = async event => {
   console.log(JSON.stringify(event));
 
-  if (event.path !== "/login" || event.path !== "/get-user") {
+  if (event.path !== "/login" && event.path !== "/get-user") {
     return statusCodeResult(404);
   }
+
+  console.log("Path valid", event.path);
 
   if (
     (event.path === "/login" && event.httpMethod !== "POST") ||
@@ -20,8 +22,12 @@ exports.handler = async event => {
     return statusCodeResult(400);
   }
 
+  console.log("HttpMethod suits path", event.httpMethod);
+
   try {
     const suppliedUserDetails = getSuppliedUserDetails(event);
+
+    console.log("User details determined from request", suppliedUserDetails);
 
     const params = {
       TableName: "MigrantUsers",
@@ -36,22 +42,31 @@ exports.handler = async event => {
 
     const result = await docClient.scan(params).promise();
 
+    console.log("Results returned from database scan", result);
+
     if (result.Items.length !== 1) {
-      return moreThanOneRecord();
+      console.log("Incorrect number of records");
+      return notExactlyOneRecord();
     }
 
     if (event.path === "/login") {
+      console.log("Checking password hash.");
+
       if (
         bcrypt.compareSync(
           suppliedUserDetails.password,
           result.Items[0].credential
         )
       ) {
+        console.log("Password hash matches");
         return statusCodeResult(200);
       }
 
+      console.log("Password hash did not match");
       return statusCodeResult(403);
     }
+
+    console.log("Returning user details");
 
     return {
       statusCode: 200,
@@ -66,7 +81,7 @@ exports.handler = async event => {
   }
 };
 
-function moreThanOneRecord() {
+function notExactlyOneRecord() {
   return statusCodeResult(
     500,
     "Could not find exactly one record. Request terminated."
