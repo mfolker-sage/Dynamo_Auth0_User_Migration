@@ -4,7 +4,6 @@ AWS.config.update({
   region: "eu-west-1"
 });
 const docClient = new AWS.DynamoDB.DocumentClient();
-const bcrypt = require("bcrypt");
 
 exports.handler = async event => {
   console.log(JSON.stringify(event));
@@ -46,12 +45,7 @@ exports.handler = async event => {
     if (event.path === "/login") {
       console.log("Checking password hash.");
 
-      if (
-        bcrypt.compareSync(
-          suppliedUserDetails.password,
-          result.Items[0].credential
-        )
-      ) {
+      if (suppliedUserDetails.password === result.Items[0].credential) {
         console.log("Password hash matches");
         return statusCodeResult(200);
       }
@@ -62,13 +56,13 @@ exports.handler = async event => {
 
     console.log("Returning user details");
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify({
+    return statusCodeResult(
+      200,
+      JSON.stringify({
         emailAddress: result.Items[0].emailAddress,
         name: result.Items[0].name
       })
-    };
+    );
   } catch (err) {
     console.log(err);
     return statusCodeResult(500);
@@ -91,6 +85,7 @@ function statusCodeResult(statusCode, body) {
 
 function getSuppliedUserDetails(event) {
   if (event.httpMethod === "POST") {
+    console.log("returning the event body", event.body);
     return JSON.parse(event.body);
   }
 
