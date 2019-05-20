@@ -86,7 +86,7 @@ function statusCodeResult(statusCode, body) {
 function getSuppliedUserDetails(event) {
   if (event.httpMethod === "POST") {
     console.log("returning the event body", event.body);
-    return JSON.parse(event.body);
+    return event.body;
   }
 
   return {
