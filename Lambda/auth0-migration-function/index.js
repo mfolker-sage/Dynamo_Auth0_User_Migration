@@ -9,12 +9,6 @@ const bcrypt = require("bcrypt");
 exports.handler = async event => {
   console.log(JSON.stringify(event));
 
-  if (event.path !== "/login" && event.path !== "/get-user") {
-    return statusCodeResult(404);
-  }
-
-  console.log("Path valid", event.path);
-
   if (
     (event.path === "/login" && event.httpMethod !== "POST") ||
     (event.path.startsWith("/get-user") && event.httpMethod !== "GET")
