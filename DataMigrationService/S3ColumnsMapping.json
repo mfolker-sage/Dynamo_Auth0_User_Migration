@@ -1,0 +1,40 @@
+{
+  "TableCount": "1",
+  "Tables": [
+    {
+      "TableName": "Users",
+      "TablePath": "users",
+      "TableOwner": "mfolker",
+      "TableColumnsTotal": "5",
+      "TableColumns": [
+        {
+          "ColumnName": "id",
+          "ColumnType": "STRING",
+          "ColumnLength": "32",
+          "ColumnNullable": "false",
+          "ColumnIsPK": true
+        },
+        {
+          "ColumnName": "emailAddress",
+          "ColumnType": "STRING",
+          "ColumnLength": "140"
+        },
+        {
+          "ColumnName": "name",
+          "ColumnType": "STRING",
+          "ColumnLength": "140"
+        },
+        {
+          "ColumnName": "credentialFormat",
+          "ColumnType": "STRING",
+          "ColumnLength": "10"
+        },
+        {
+          "ColumnName": "credential",
+          "ColumnType": "STRING",
+          "ColumnLength": "60"
+        }
+      ]
+    }
+  ]
+}
